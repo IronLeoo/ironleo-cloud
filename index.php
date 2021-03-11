@@ -2,12 +2,18 @@
 
 session_start();
  
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || (!isset($_COOKIE["user"]))){
+    $_SESSION["loggedin"] = false;
     header("location: login.php");
     exit;
 }
 
-$currentdir = $_GET["currentdir"];
+if (isset($_COOKIE["currentdir"])) {
+    $currentdir = $_COOKIE["currentdir"];
+} else {
+    $currentdir = "root";
+}
+
 $user = $_COOKIE["user"];
 $uid = '';
 
@@ -46,12 +52,13 @@ $dirk = "K:";
 $dirc = "C:";
 
 if ($user != '') {
+    
     function cloudBuildDir($currentdir) {
         $thelist = '';
         if ($handle = opendir($currentdir)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
-                    $thelist .= '<li><a class="deletebutton" href="deletedir.php?currentdir='.$currentdir.'/'.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')">Delete</a>  <a href="rename.php?currentdir='.$currentdir.'&filen='.$file.'">Rename</a><span class="tab"><a class="filelink" href="index.php?currentdir='.$currentdir.'/'.$file.'">'.$file.'</a></li>';
+                    $thelist .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')">Delete</a>  <a href="rename.php?filen='.$file.'">Rename</a><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'">'.$file.'</a></li>';
                 }
             }
         closedir($handle);
@@ -64,7 +71,7 @@ if ($user != '') {
         if ($handle = opendir($currentdir)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
-                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?currentdir='.$currentdir.'/'.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')">Delete</a> <a href="rename.php?currentdir='.$currentdir.'&filen='.$file.'">Rename</a><span class="tab"><a class="filelink" href="download.php?currentdir='.$currentdir.'/'.$file.'">'.$file.'</a></li>';
+                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')">Delete</a> <a href="rename.php?filen='.$file.'">Rename</a><span class="tab"><a class="filelink" href="download.php?file='.$file.'">'.$file.'</a></li>';
                 }
             }
         closedir($handle);
@@ -87,7 +94,7 @@ if($uid == 1) {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
                     $thelist3 .= '<li><a class="deletebutton" href="deletedir.php?currentdir='.$currentdir2.'/'.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')">Delete</a> <a href="rename.php?currentdir='.$currentdir2.'&filen='.$file.'">Rename</a><span class="tab"><a class="filelink" href="index.php?currentdir='.$currentdir2.'/'.$file.'">'.$file.'</a></li>';
                 } elseif ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
-                    $thelist4 .= '<li><a class="deletebutton" href="delete.php?currentdir='.$currentdir2.'/'.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')">Delete</a> <a href="rename.php?currentdir='.$currentdir2.'&filen='.$file.'">Rename</a><span class="tab"><a class="filelink" href="download.php?currentdir='.$currentdir2.'/'.$file.'">'.$file.'</a></li>';
+                    $thelist4 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')">Delete</a>  <a href="rename.php?filen='.$file.'">Rename</a><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'">'.$file.'</a></li>';
                 }
             }
         closedir($handle);
@@ -134,11 +141,12 @@ if($uid == 1) {
         <h1>List of files:</h1>
         <div class="form-group">
             <?php
-                echo '<a class="btn btn-primary" onclick="history.go(-1)">Back</a> ';
+                echo '<a class="btn btn-primary" href="previous.php">Back</a> ';
                 echo '<a class="btn btn-primary" onclick="window.location.reload()">Refresh</a> ';
-                echo '<a class="btn btn-primary" href="createdir.php?currentdir='.$currentdir.'">Create Folder</a> ';
-                echo '<a class="btn btn-primary" href="upload.php?currentdir='.$currentdir.'">Upload</a>';
-                echo '<a class="btn btn-primaryred" href="logout.php">Logout</a>'
+                echo '<a class="btn btn-primary" href="createdir.php">Create Folder</a> ';
+                echo '<a class="btn btn-primary" href="upload.php">Upload</a>';
+                echo '<span class="tab"><a class="btn btn-primaryyellow" href="root.php">Root</a>';
+                echo '<a class="btn btn-primaryred" href="logout.php">Logout</a>';
             ?>
         </div>
         <h3><?php echo $currentdir; ?></h3>

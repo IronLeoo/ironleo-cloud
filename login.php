@@ -2,9 +2,10 @@
 
 session_start();
 
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-	header("location: index.php?currentdir=root");
-	exit;
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_COOKIE["user"] != ''){
+    setcookie("currentdir","root",time()+2*24*60*60);
+    header("location: index.php");
+    exit;
 }
 
 require_once "config.php";
@@ -48,7 +49,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 							$_SESSION["username"] = $username;
 							
                                                         setcookie("user",$hashed_password,time()+2*24*60*60);
-							header("location: index.php?currentdir=root");
+                                                        setcookie("currentdir","root",time()+2*24*60*60);
+							header("location: index.php");
 							
 						} else {
 							$password_err = "The password you entered was not valid.";
