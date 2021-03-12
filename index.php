@@ -90,11 +90,12 @@ if($uid == 1) {
         
         $currentdir2 = $dirk;
         if ($handle = opendir($currentdir2)) {
+            setcookie("currentdir",$currentdir2,time()+30*60);
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
-                    $thelist3 .= '<li><a class="deletebutton" href="deletedir.php?currentdir='.$currentdir2.'/'.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')">Delete</a> <a href="rename.php?currentdir='.$currentdir2.'&filen='.$file.'">Rename</a><span class="tab"><a class="filelink" href="index.php?currentdir='.$currentdir2.'/'.$file.'">'.$file.'</a></li>';
+                    $thelist3 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')">Delete</a>  <a href="rename.php?filen='.$file.'">Rename</a><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'">'.$file.'</a></li>';
                 } elseif ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
-                    $thelist4 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')">Delete</a>  <a href="rename.php?filen='.$file.'">Rename</a><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'">'.$file.'</a></li>';
+                    $thelist4 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')">Delete</a> <a href="rename.php?filen='.$file.'">Rename</a><span class="tab"><a class="filelink" href="download.php?file='.$file.'">'.$file.'</a></li>';
                 }
             }
         closedir($handle);
