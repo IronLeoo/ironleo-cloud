@@ -93,6 +93,7 @@ if (isset($_GET["error"]) && trim($_GET["error"]) == "nologin") {
 </head>
 <body>
 	<div class="wrapper">
+            <a class="homebutton" href="/index.php">Start</a>
 		<h2>Login</h2>
 		<p>Enter your credentials to login.</p>
 		<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
