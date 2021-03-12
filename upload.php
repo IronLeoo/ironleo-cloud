@@ -39,7 +39,7 @@ if($count == 1) {
         echo '<pre>';
         
         if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
-            header("location: /cloud/index.php?currentdir=$destDir");
+            header("location: index.php");
         print "</pre>";
         }
     }

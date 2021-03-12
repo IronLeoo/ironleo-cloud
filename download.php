@@ -4,7 +4,7 @@ require_once "config.php";
 $dlFile = $_GET["file"];
 $getUser = $_COOKIE["user"];
 
-if($stmt = mysqli_prepare($link, "SELECT * FROM users where password = ?")) {
+if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
     mysqli_stmt_bind_param($stmt, "s", $param_password);
     $param_password = $getUser;
     

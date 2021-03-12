@@ -29,12 +29,19 @@ mysqli_close($link);
 
 
 if ($_COOKIE["currentdir"] == "root") {
-    $currentdir = $udir;
+    if (isset($_GET["admin"])) {
+        if ($_GET["admin"] == "k") {
+        $currentdir = "K:";
+        }
+    } else {
+        $currentdir = $udir;
+    }
+    
 } else {
     $currentdir = $_COOKIE["currentdir"];
 }
 $currentdir = $currentdir."/".$file;
-setcookie("currentdir",$currentdir,time()+30*60);
+setcookie("currentdir",$currentdir,time()+7*24*60*60);
 header("location: index.php");
 
 ?>

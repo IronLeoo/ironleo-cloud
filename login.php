@@ -3,7 +3,7 @@
 session_start();
 
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && $_COOKIE["user"] != ''){
-    setcookie("currentdir","root",time()+2*24*60*60);
+    setcookie("currentdir","root",time()+7*24*60*60);
     header("location: index.php");
     exit;
 }
@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 							$_SESSION["username"] = $username;
 							
                                                         setcookie("user",$hashed_password,time()+2*24*60*60);
-                                                        setcookie("currentdir","root",time()+2*24*60*60);
+                                                        setcookie("currentdir","root",time()+7*24*60*60);
 							header("location: index.php");
 							
 						} else {

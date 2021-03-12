@@ -34,7 +34,7 @@ if ($srcDir == "root") {
 if($count == 1) {
 
     mkdir($srcDir);
-    header("location:javascript://history.go(-1)");
+    header("location: index.php");
 } else {
     header("location:javascript://history.go(-1)");
 }

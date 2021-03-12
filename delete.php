@@ -35,7 +35,7 @@ $rmPath = $rmDir."/".$rmFile;
 if($count == 1) {
 
     unlink($rmPath);
-    header("location:javascript://history.go(-1)");
+    header("location: index.php");
 } else {
     header("location:javascript://history.go(-1)");
 }
