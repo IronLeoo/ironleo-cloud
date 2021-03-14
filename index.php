@@ -69,7 +69,7 @@ if ($user != '') {
         if ($handle = opendir($currentdir)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
-                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'"></a><span class="tab"><a class="filelink" href="download.php?file='.$file.'">'.$file.'</a></li>';
+                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'">'.$file.'</a></li>';
                 }
             }
         closedir($handle);
@@ -92,7 +92,7 @@ if($uid == 1) {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
                     $thelist3 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a>  <a class="renamebutton" href="rename.php?filen='.$file.'&admin=k"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'&admin=k">'.$file.'</a></li>';
                 } elseif ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
-                    $thelist4 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'&admin=k"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'"></a><span class="tab"><a class="filelink" href="download.php?file='.$file.'&admin=k">'.$file.'</a></li>';
+                    $thelist4 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'&admin=k"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'&admin=k"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'">'.$file.'</a></li>';
                 }
             }
         closedir($handle);
@@ -135,23 +135,33 @@ if($uid == 1) {
             .wrapper{ width: 350px; padding: 20px; }
         </style>
     </head>
-    <body class="extrapadding">
-        <div class="form-group">
-            <?php
-                echo '<a class="btn btn-primary" href="previous.php">Back</a> ';
-                echo '<a class="btn btn-primary" onclick="window.location.reload()">Refresh</a> ';
-                echo '<a class="btn btn-primary" href="createdir.php">Create Folder</a> ';
-                echo '<a class="btn btn-primary" href="upload.php">Upload</a>';
-                echo '<span class="tab"><a class="btn btn-primaryyellow" href="root.php">Root</a>';
-                echo '<a class="btn btn-primaryred" href="logout.php">Logout</a>';
-            ?>
+    <body>
+        <div class="sidebar"></div>
+        <div class="toolbar">
+            <div class="form-group">
+                <?php
+                    echo '<a class="btn btn-primary" href="previous.php">Back</a> ';
+                    echo '<a class="btn btn-primary" onclick="window.location.reload()">Refresh</a> ';
+                    echo '<a class="btn btn-primary" href="createdir.php">Create Folder</a> ';
+                    echo '<a class="btn btn-primary" href="upload.php">Upload</a>';
+                    echo '<span class="tab"><a class="btn btn-primaryyellow" href="root.php">Root</a>';
+                    echo '<a class="btn btn-primaryred" href="logout.php">Logout</a>';
+                ?>
+            </div>
         </div>
-        <h1>List of files:</h1>
-        <h3><?php echo $currentdir; ?></h3>
-        <ul><?php if (isset($thelist)) {echo $thelist;} ?></ul>
-        <ul><?php if (isset($thelist2)) {echo $thelist2;} ?></ul>
-        <h3><?php if (isset($currentdir2)) {echo $currentdir2;} ?></h3>
-        <ul><?php if (isset($thelist3)) {echo $thelist3;} ?></ul>
-        <ul><?php if (isset($thelist4)) {echo $thelist4;} ?></ul>
+        <div class="listhead">
+            <h1>List of files:</h1>
+            <h3><?php echo $currentdir; ?></h3>
+        </div>
+        <div class="filelist">
+            <ul><?php if (isset($thelist)) {echo $thelist;} ?></ul>
+            <ul><?php if (isset($thelist2)) {echo $thelist2;} ?></ul>
+        <div class="listhead2">
+            <h3><?php if (isset($currentdir2)) {echo $currentdir2;} ?></h3>
+        </div>
+        <div class="filelist2">
+            <ul><?php if (isset($thelist3)) {echo $thelist3;} ?></ul>
+            <ul><?php if (isset($thelist4)) {echo $thelist4;} ?></ul>
+        </div>
     </body>
 </html>

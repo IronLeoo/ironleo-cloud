@@ -1,7 +1,7 @@
 <?php
 require_once "config.php";
 
-$rmFile = $_GET["file"];
+$viewFile = $_GET["file"];
 $getUser = $_COOKIE["user"];
 
 if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
@@ -25,18 +25,10 @@ if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
 mysqli_close($link);
 
 if ($_COOKIE["currentdir"] == "root") {
-    $rmDir = $udir;
+    $viewDir = $udir;
 } else {
-    $rmDir = $_COOKIE["currentdir"];
+    $viewDir = $_COOKIE["currentdir"];
 }
 
-$rmPath = $rmDir."/".$rmFile;
+$viewPath = $viewDir."/".$viewFile;
 
-if($count == 1) {
-
-    unlink($rmPath);
-    header("location: index.php");
-} else {
-    header("location:javascript://history.go(-1)");
-}
-?>
