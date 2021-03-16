@@ -66,16 +66,30 @@ if ($user != '') {
         
     function cloudBuildFile ($currentdir) {
         $thelist2 = '';
+        $sizeconvert = true;
         if ($handle = opendir($currentdir)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
-                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a></li>';
+                    $blacklist = array('$Recycle.Bin', 'BOOTSECT.BAK', 'DumpStack.log.tmp', 'hiberfil.sys', 'nginx-1.19.7', 'pagefile.sys', 'swapfile.sys');
+                    $fileSize = '';
+                    if (!in_array($file, $blacklist)) { 
+                        $fileSizeRaw = filesize($currentdir.'/'.$file);
+                        $fileSize = byteConvert($fileSizeRaw);
+                    }
+                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a><span class="tab"><p class="filesize">'.$fileSize.'</p></li>';
                 }
             }
         closedir($handle);
         }
+        $sizeconvert = false;
         return $thelist2;
     }
+    function byteConvert($size) {
+        $base = log($size, 1024);
+        $suffixes = array('B', 'KB', 'MB', 'GB', 'TB');   
+
+        return round(pow(1024, $base - floor($base)), 2) .' '. $suffixes[floor($base)];
+    } 
 }
 
 if($uid == 1) {
