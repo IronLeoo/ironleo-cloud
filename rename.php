@@ -5,6 +5,7 @@ require_once "config.php";
 $fileName = $_GET["filen"];
 $getUser = $_COOKIE["user"];
 $newname = '';
+$dirk = "K:";
 
 if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
     mysqli_stmt_bind_param($stmt, "s", $param_password);
@@ -27,9 +28,17 @@ if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
 mysqli_close($link);
 
 if ($_COOKIE["currentdir"] == "root") {
-    $fileDir = $udir;
+    if ($udir == "C:") {
+        $fileDir = $udir;
+    } else {
+        $fileDir = $dirk.$udir;
+    }
 } else {
-    $fileDir = $_COOKIE["currentdir"];
+    if ($udir == "C:") {
+        $fileDir = $_COOKIE["currentdir"];
+    } else {
+        $fileDir = $dirk.$_COOKIE["currentdir"];
+    }
 }
 
 $filePath = $fileDir."/".$fileName;

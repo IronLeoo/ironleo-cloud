@@ -3,6 +3,7 @@ require_once "config.php";
 
 $file = $_GET["file"];
 $getUser = $_COOKIE["user"];
+$dirk = "K:";
 
 
 if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
@@ -27,9 +28,17 @@ if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
 mysqli_close($link);
 
 if ($_COOKIE["currentdir"] == "root") {
-    $dir = $udir;
+    if ($udir == "C:") {
+        $dir = $udir;
+    } else {
+        $dir = $dirk.$udir;
+    }
 } else {
-    $dir = $_COOKIE["currentdir"];
+    if ($udir == "C:") {
+        $dir = $_COOKIE["currentdir"];
+    } else {
+        $dir = $dirk.$_COOKIE["currentdir"];
+    }
 }
 
 $rmDir = $dir."/".$file;

@@ -3,6 +3,7 @@ require_once "config.php";
 
 $shareFile = $_GET["filen"];
 $getUser = $_COOKIE["user"];
+$dirk = "K:";
 
 if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
     mysqli_stmt_bind_param($stmt, "s", $param_password);
@@ -24,9 +25,17 @@ if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
 }
 
 if ($_COOKIE["currentdir"] == "root") {
-    $shareDir = $udir;
+    if ($udir == "C:") {
+        $shareDir = $udir;
+    } else {
+        $shareDir = $dirk.$udir;
+    }
 } else {
-    $shareDir = $_COOKIE["currentdir"];
+    if ($udir == "C:") {
+        $shareDir = $_COOKIE["currentdir"];
+    } else {
+        $shareDir = $dirk.$_COOKIE["currentdir"];
+    }
 }
 
 $sharePath = $shareDir."/".$shareFile;

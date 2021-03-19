@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+$dirk = "K:";
  
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || (!isset($_COOKIE["user"]))){
     $_SESSION["loggedin"] = false;
@@ -122,15 +123,15 @@ if($uid == 1) {
 } elseif($uid != 1) {
     
     if($currentdir == "root") {
-        
         $currentdir = $udir;
-        $thelist = cloudBuildDir($currentdir);
-        $thelist2 = cloudBuildFile($currentdir);
+        $currentdirwok = $dirk.$udir;
+        $thelist = cloudBuildDir($currentdirwok);
+        $thelist2 = cloudBuildFile($currentdirwok);
 	
     } elseif($currentdir != "root") {
-    
-	$thelist = cloudBuildDir($currentdir);
-        $thelist2 = cloudBuildFile($currentdir);
+        $currentdirwok = $dirk.$currentdir;
+	$thelist = cloudBuildDir($currentdirwok);
+        $thelist2 = cloudBuildFile($currentdirwok);
     }
 
 }

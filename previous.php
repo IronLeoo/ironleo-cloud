@@ -29,7 +29,7 @@ if ($previousdir !== "C:" & $previousdir !== "K:" & $previousdir !== "root" & $p
     }
 
     $previousdir = substr_replace($previousdir, "", -1);
-    if ($previousdir == "C:" || $previousdir == "K:") {
+    if ($previousdir == "C:" || $previousdir == "K:" || $previousdir == $udir) {
         $previousdir = "root";
     }
     setcookie("currentdir",$previousdir,time()+7*24*60*60);

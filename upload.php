@@ -4,6 +4,7 @@ require_once "config.php";
 $destDir = $_COOKIE["currentdir"];
 $getUser = $_COOKIE["user"];
 $uploadfile = '';
+$dirk = "K:";
 
 if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
     mysqli_stmt_bind_param($stmt, "s", $param_password);
@@ -26,9 +27,17 @@ if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
 mysqli_close($link);
 
 if ($_COOKIE["currentdir"] == "root") {
-    $destDir = $udir;
+    if ($udir == "C:") {
+        $destDir = $udir;
+    } else {
+        $destDir = $dik.$udir;
+    }
 } else {
-    $destDir = $_COOKIE["currentdir"];
+    if ($udir == "C:") {
+        $destDir = $_COOKIE["currentdir"];
+    } else {
+        $destDir = $dirk.$_COOKIE["currentdir"];
+    }
 }
 
 $destDirfull = $destDir.'/';
