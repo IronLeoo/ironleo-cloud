@@ -30,7 +30,7 @@ if ($_COOKIE["currentdir"] == "root") {
     if ($udir == "C:") {
         $destDir = $udir;
     } else {
-        $destDir = $dik.$udir;
+        $destDir = $dirk.$udir;
     }
 } else {
     if ($udir == "C:") {
