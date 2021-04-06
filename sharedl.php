@@ -33,21 +33,22 @@ if (!isset($dlPath)) {
     echo '</form></div>';
     echo '<link href="style.css" rel="stylesheet"/>';
     echo '<style>div {margin: 3em;} h2 {margin-left: 1em;} .btn-primary {padding: 10px 20px; font-size: 20px;}</style>';
-    
+
     if (array_key_exists('dload',$_POST)){
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header("Cache-Control: no-cache, must-revalidate");
         header("Expires: 0");
-        header('Content-Disposition: attachment; filename="'.basename($dlPath).'"');
+        header('Content-Disposition: attachment; filename="' . basename($dlPath) . '"');
         header('Content-Length: ' . filesize($dlPath));
         header('Pragma: public');
 
         flush();
+        ob_end_clean();
 
         readfile($dlPath);
 
-        die();
+        exit;
     }
 }
 
