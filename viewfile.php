@@ -48,13 +48,13 @@ copy($viewPath, $xampppath.$filelink);
 if (in_array(strtolower(pathinfo($viewPath, PATHINFO_EXTENSION)), ["png", "jpg", "jpeg", "gif"])) {
     echo '<img style="-webkit-user-select: none;margin: auto;" src="'.$filelink.'">';
 
-} elseif (pathinfo($viewPath, PATHINFO_EXTENSION) === "mp4") {
+} elseif (pathinfo($viewPath, PATHINFO_EXTENSION) == "mp4") {
     echo '<video controls="" autoplay="" name="media"><source type="video/mp4" src="'.$filelink.'"></video>';
     
 } elseif (in_array(strtolower(pathinfo($viewPath, PATHINFO_EXTENSION)), ["mp3", "ogg", "m4a", "wav"])) {
     echo '<video controls="" autoplay="" name="media"><source src="'.$filelink.'" type="audio/mpeg"></video>';
     
-} elseif (pathinfo($viewPath, PATHINFO_EXTENSION) == "txt") {
+} elseif (in_array(strtolower(pathinfo($viewPath, PATHINFO_EXTENSION)), ["txt", "log"])) {
     echo '<body style="background-color: #101010; color: #ffffff; justify-content: unset;"><p>'. str_replace("\n","<br />", file_get_contents($xampppath.$filelink)) .'</p></body>';
 }
 ?>
