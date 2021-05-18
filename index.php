@@ -73,11 +73,17 @@ if ($user != '') {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
                     $blacklist = array('$Recycle.Bin', 'BOOTSECT.BAK', 'DumpStack.log.tmp', 'hiberfil.sys', 'nginx-1.19.7', 'pagefile.sys', 'swapfile.sys');
                     $fileSize = '';
+                    $fileTime = '';
+                    $slashSymbol = '';
                     if (!in_array($file, $blacklist)) { 
                         $fileSizeRaw = filesize($currentdir.'/'.$file);
                         $fileSize = byteConvert($fileSizeRaw);
+                        $slashSymbol = '/';
+                        try {
+                            $fileTime = date("j.n.Y H:i", filemtime($currentdir.'/'.$file));
+                        } catch (Exception $e){$slashSymbol = '';}
                     }
-                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a><span class="tab"><p class="filesize">'.$fileSize.'</p></li>';
+                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a><span class="tab"><p class="filesize">'.$fileSize.'</p><span class="tab"><p class="filesize">'.$slashSymbol.'</p><span class="tab"><p class="filesize">'.$fileTime.'</p></li>';
                 }
             }
         closedir($handle);
