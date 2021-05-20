@@ -56,6 +56,9 @@ if (in_array(strtolower(pathinfo($viewPath, PATHINFO_EXTENSION)), ["png", "jpg",
     
 } elseif (in_array(strtolower(pathinfo($viewPath, PATHINFO_EXTENSION)), ["txt", "log"])) {
     echo '<body style="background-color: #101010; color: #ffffff; justify-content: unset;"><p>'. str_replace("\n","<br />", file_get_contents($xampppath.$filelink)) .'</p></body>';
+
+} else {
+    echo '<p style="color: #EEEEEE">This file cannot be viewed.</p>';
 }
 ?>
 
