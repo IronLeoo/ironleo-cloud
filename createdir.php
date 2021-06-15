@@ -35,6 +35,8 @@ if ($_COOKIE["currentdir"] == "root") {
 } else {
     if ($udir == "C:") {
         $srcDir = $_COOKIE["currentdir"]."/New Folder";
+    } elseif (strpos($srcDir, "K:/share") !== false) {
+        $srcDir = $srcDir."/New Folder";
     } else {
         $srcDir = $dirk.$_COOKIE["currentdir"]."/New Folder";
     }

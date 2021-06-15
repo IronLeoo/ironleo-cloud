@@ -35,6 +35,8 @@ if ($_COOKIE["currentdir"] == "root") {
 } else {
     if ($udir == "C:") {
         $destDir = $_COOKIE["currentdir"];
+    } elseif (strpos($destDir, "K:/share") !== false) {
+        $destDir = $destDir;
     } else {
         $destDir = $dirk.$_COOKIE["currentdir"];
     }
