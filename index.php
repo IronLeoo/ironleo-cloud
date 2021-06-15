@@ -48,6 +48,7 @@ $thelist = '';
 $thelist2 = '';
 $thelist3 = '';
 $thelist4 = '';
+$thelist5 = '';
 $dirs = "K:/share";
 
 if ($user != '') {
@@ -111,13 +112,16 @@ if($uid == 1) {
         if ($handle = opendir($currentdir2)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
-                    $thelist3 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a>  <a class="renamebutton" href="rename.php?filen='.$file.'&admin=k"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'&admin=k">'.$file.'</a></li>';
+                    $thelist3 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a>  <a class="renamebutton" href="rename.php?filen='.$file.'&admin=k"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'&extra=k">'.$file.'</a></li>';
                 } elseif ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
-                    $thelist4 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'&admin=k"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'&admin=k"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a></li>';
+                    $thelist4 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'&admin=k"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'&extra=k"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a></li>';
                 }
             }
         closedir($handle);
         }
+        
+        $thelist5 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'&admin=k"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?extra=share">Share</a></li>';
+        
 	
     } elseif($currentdir != "root") {
     
@@ -133,11 +137,25 @@ if($uid == 1) {
         $currentdirwok = $dirk.$udir;
         $thelist = cloudBuildDir($currentdirwok);
         $thelist2 = cloudBuildFile($currentdirwok);
+        $thelist5 .= '<li><span class="tab"><span class="tab"><span class="tab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?extra=share">Share</a></li>';
 	
     } elseif($currentdir != "root") {
-        $currentdirwok = $dirk.$currentdir;
-	$thelist = cloudBuildDir($currentdirwok);
-        $thelist2 = cloudBuildFile($currentdirwok);
+        if (strpos($currentdir, "K:/share") !== false) {
+            if ($handle = opendir($currentdir)) {
+                while (false !== ($file = readdir($handle))) {
+                    if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
+                        $thelist3 .= '<li><span class="tab"><span class="tab"><span class="tab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'&extra=k">'.$file.'</a></li>';
+                    } elseif ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
+                        $thelist4 .= '<li><span class="tab"><span class="tab"><span class="tab"><span class="tab"><a class="dlbutton" href="download.php?file='.$file.'&extra=k"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a></li>';
+                    }
+                }
+        closedir($handle);
+            }
+        } else {
+            $currentdirwok = $dirk.$currentdir;
+            $thelist = cloudBuildDir($currentdirwok);
+            $thelist2 = cloudBuildFile($currentdirwok);
+        }
     }
 
 }
@@ -184,5 +202,11 @@ if($uid == 1) {
             <ul><?php if (isset($thelist3)) {echo $thelist3;} ?></ul>
             <ul><?php if (isset($thelist4)) {echo $thelist4;} ?></ul>
         </div>
+        <?php if ($_COOKIE["currentdir"] == "root") {echo '<div class="listhead2"><h3>Share</h3></div>';} ?>
+        
+        <div class="filelist2">
+            <ul><?php if (isset($thelist5)) {echo $thelist5;} ?></ul>
+        </div>
+        <div style="padding-bottom: 100px"></div>
     </body>
 </html>

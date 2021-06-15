@@ -29,9 +29,12 @@ mysqli_close($link);
 
 
 if ($_COOKIE["currentdir"] == "root") {
-    if (isset($_GET["admin"])) {
-        if ($_GET["admin"] == "k") {
-        $currentdir = "K:";
+    if (isset($_GET["extra"])) {
+        if ($_GET["extra"] == "k") {
+            $currentdir = "K:";
+        } elseif ($_GET["extra"] == "share") {
+            $currentdir = "K:";
+            $file = "share";
         }
     } else {
         $currentdir = $udir;
