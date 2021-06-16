@@ -46,17 +46,23 @@ if ($_COOKIE["currentdir"] == "root") {
 
 $rmDir = $dir."/".$file;
 
+ function rrmdir($dir) { 
+   if (is_dir($dir)) { 
+     $objects = scandir($dir);
+     foreach ($objects as $object) { 
+       if ($object != "." && $object != "..") { 
+         if (is_dir($dir. DIRECTORY_SEPARATOR .$object) && !is_link($dir."/".$object))
+           rrmdir($dir. DIRECTORY_SEPARATOR .$object);
+         else
+           unlink($dir. DIRECTORY_SEPARATOR .$object); 
+       } 
+     }
+     rmdir($dir); 
+   } 
+ }
+
 if($count == 1) {
-    if ($handle = opendir($rmDir)) {
-            while (false !== ($file = readdir($handle))) {
-		if ($file != "." && $file != "..") {
-                    unlink($rmDir.'/'.$file);
-                }
-            }
-    closedir($handle);
-    }
-    
-    rmdir($rmDir);
+    rrmdir($rmDir);
     header("location: index.php");
 } else {
     header("location:javascript://history.go(-1)");

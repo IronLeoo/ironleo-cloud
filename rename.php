@@ -52,7 +52,7 @@ if($count == 1) {
         if (!empty(trim($_POST["newname"]))) {
             
             $newname = trim($_POST["newname"]);
-            rename($filePath, $fileDir."/".$newname);
+            rename($filePath, $fileDir."/".$newname.".".pathinfo($filePath, PATHINFO_EXTENSION));
             header("location: index.php");
         }
     }   
