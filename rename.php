@@ -3,8 +3,8 @@ require_once "config.php";
 
 
 $fileName = $_GET["filen"];
+$newName = $_GET["newname"];
 $getUser = $_COOKIE["user"];
-$newname = '';
 $dirk = "K:";
 
 if($stmt = mysqli_prepare($link, "SELECT dir FROM users where password = ?")) {
@@ -46,18 +46,15 @@ $filePath = $fileDir."/".$fileName;
 session_start();
 
 if($count == 1) {
-    
-    if($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-        if (!empty(trim($_POST["newname"]))) {
-            
-            $newname = trim($_POST["newname"]);
-            rename($filePath, $fileDir."/".$newname.".".pathinfo($filePath, PATHINFO_EXTENSION));
-            header("location: index.php");
-        }
-    }   
+    if (is_dir($filePath) == true) {
+        rename($filePath, $fileDir."/".$newName);
+        header("location: index.php");
+    } elseif (is_dir($filePath) == false){
+        rename($filePath, $fileDir."/".$newName.".".pathinfo($filePath, PATHINFO_EXTENSION));
+        header("location: index.php");
+    }
 } else {
-    header("location:javascript://history.go(-1)");
+    header("index.php");
 }
 ?>
 
@@ -75,21 +72,4 @@ if($count == 1) {
 	.wrapper{ width: 350px; padding: 20px; }
     </style>
 </head>
-<body>
-    <div class="wrapper">
-        <h1>Rename</h1>
-        <h2><?php echo '"'.$fileName.'"'; ?></h2>
-        <h3>to</h3>
-    </div>
-	<div class="wrapper">
-            <form method="post">
-                <div class="form-group">
-                    <input type="text" name="newname" class="form-control" value="<?php echo $newname; ?>">
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Rename">
-                </div>
-            </form>
-        </div>
-</body>
 </html>

@@ -58,7 +58,7 @@ if ($user != '') {
         if ($handle = opendir($currentdir)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
-                    $thelist .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a>  <a class="renamebutton" href="rename.php?filen='.$file.'"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'">'.$file.'</a></li>';
+                    $thelist .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a>  <script>function renamePrompt() {var newname = prompt("New Name:", ""); if (newname != null) {url = "rename.php?filen='.$file.'&newname=" + newname; window.location.replace(url);}}</script><a class="renamebutton" onclick="renamePrompt()"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'">'.$file.'</a></li>';
                 }
             }
         closedir($handle);
@@ -84,7 +84,7 @@ if ($user != '') {
                             $fileTime = date("j.n.Y H:i", filemtime($currentdir.'/'.$file));
                         } catch (Exception $e){$slashSymbol = '';}
                     }
-                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a><span class="tab"><p class="filesize">'.$fileSize.'</p><span class="tab"><p class="filesize">'.$slashSymbol.'</p><span class="tab"><p class="filesize">'.$fileTime.'</p></li>';
+                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <script>function renamePrompt() {var newname = prompt("New Name:", ""); if (newname != null) {url = "rename.php?filen='.$file.'&newname=" + newname; window.location.replace(url);}}</script><a class="renamebutton" onclick="renamePrompt()"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a><span class="tab"><p class="filesize">'.$fileSize.'</p><span class="tab"><p class="filesize">'.$slashSymbol.'</p><span class="tab"><p class="filesize">'.$fileTime.'</p></li>';
                 }
             }
         closedir($handle);
@@ -92,6 +92,7 @@ if ($user != '') {
         $sizeconvert = false;
         return $thelist2;
     }
+    
     function byteConvert($size) {
         $base = log($size, 1024);
         $suffixes = array('B', 'KB', 'MB', 'GB', 'TB');   
@@ -169,6 +170,7 @@ if($uid == 1) {
         <meta name="viewport" content="width=device-width, initial-scale=1">		
         <meta name="description" content="IronLeo Cloud Main" />					
         <link href="style.css" rel="stylesheet"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <style type="text/css">
             body{ font: 14px sans-serif; }
             .wrapper{ width: 350px; padding: 20px; }
