@@ -35,7 +35,7 @@ if ($_COOKIE["currentdir"] == "root") {
     if ($udir == "C:") {
         $viewDir = $_COOKIE["currentdir"];
     } else {
-        $viewDir = $dirk.$_COOKIE["currentdir"];
+        $viewDir = $_COOKIE["currentdir"];
     }
 }
 
