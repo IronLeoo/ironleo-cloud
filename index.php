@@ -58,7 +58,8 @@ if ($user != '') {
         if ($handle = opendir($currentdir)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
-                    $thelist .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a>  <script>function renamePrompt() {var newname = prompt("New Name:", ""); if (newname != null) {url = "rename.php?filen='.$file.'&newname=" + newname; window.location.replace(url);}}</script><a class="renamebutton" onclick="renamePrompt()"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'">'.$file.'</a></li>';
+                    $renameJSFunction = 'var newname = prompt(\'New Name:\', \'\'); if (newname != null) {url = \'rename.php?filen='.$file.'&newname=\' + newname; window.location.replace(url);}';
+                    $thelist .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a>  <a class="renamebutton" onclick="'.$renameJSFunction.'"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'">'.$file.'</a></li>';
                 }
             }
         closedir($handle);
@@ -66,7 +67,7 @@ if ($user != '') {
         return $thelist;
     }
         
-    function cloudBuildFile ($currentdir) {
+    function cloudBuildFile($currentdir) {
         $thelist2 = '';
         $sizeconvert = true;
         if ($handle = opendir($currentdir)) {
@@ -84,7 +85,8 @@ if ($user != '') {
                             $fileTime = date("j.n.Y H:i", filemtime($currentdir.'/'.$file));
                         } catch (Exception $e){$slashSymbol = '';}
                     }
-                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <script>function renamePrompt() {var newname = prompt("New Name:", ""); if (newname != null) {url = "rename.php?filen='.$file.'&newname=" + newname; window.location.replace(url);}}</script><a class="renamebutton" onclick="renamePrompt()"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a><span class="tab"><p class="filesize">'.$fileSize.'</p><span class="tab"><p class="filesize">'.$slashSymbol.'</p><span class="tab"><p class="filesize">'.$fileTime.'</p></li>';
+                    $renameJSFunction = 'var newname = prompt(\'New Name:\', \'\'); if (newname != null) {url = \'rename.php?filen='.$file.'&newname=\' + newname; window.location.replace(url);}';
+                    $thelist2 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" onclick="'.$renameJSFunction.'"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a><span class="tab"><p class="filesize">'.$fileSize.'</p><span class="tab"><p class="filesize">'.$slashSymbol.'</p><span class="tab"><p class="filesize">'.$fileTime.'</p></li>';
                 }
             }
         closedir($handle);
@@ -113,15 +115,17 @@ if($uid == 1) {
         if ($handle = opendir($currentdir2)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
-                    $thelist3 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a>  <a class="renamebutton" href="rename.php?filen='.$file.'&admin=k"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'&extra=k">'.$file.'</a></li>';
+                    $renameJSFunction = 'var newname = prompt(\'New Name:\', \'\'); if (newname != null) {url = \'rename.php?filen='.$file.'&admin=k&newname=\' + newname; window.location.replace(url);}';
+                    $thelist3 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a>  <a class="renamebutton" onclick="'.$renameJSFunction.'"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'&extra=k">'.$file.'</a></li>';
                 } elseif ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
-                    $thelist4 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'&admin=k"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'&extra=k"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a></li>';
+                    $renameJSFunction = 'var newname = prompt(\'New Name:\', \'\'); if (newname != null) {url = \'rename.php?filen='.$file.'&admin=k&newname=\' + newname; window.location.replace(url);}';
+                    $thelist4 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" onclick="'.$renameJSFunction.'"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'&extra=k"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a></li>';
                 }
             }
         closedir($handle);
         }
-        
-        $thelist5 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" href="rename.php?filen='.$file.'&admin=k"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?extra=share">Share</a></li>';
+        $renameJSFunction = 'var newname = prompt(\'New Name:\', \'\'); if (newname != null) {url = \'rename.php?filen='.$file.'&admin=k&newname=\' + newname; window.location.replace(url);}';
+        $thelist5 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" onclick="'.$renameJSFunction.'"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?extra=share">Share</a></li>';
         
 	
     } elseif($currentdir != "root") {
