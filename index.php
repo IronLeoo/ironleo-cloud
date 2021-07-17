@@ -57,7 +57,7 @@ if ($user != '') {
         $thelist = '';
         if ($handle = opendir($currentdir)) {
             while (false !== ($file = readdir($handle))) {
-                if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
+                if ($file != "." && $file != ".." && is_dir($currentdir.'/'.$file) == true) {
                     $renameJSFunction = 'var newname = prompt(\'New Name:\', \'\'); if (newname != null) {url = \'rename.php?filen='.$file.'&newname=\' + newname; window.location.replace(url);}';
                     $thelist .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a>  <a class="renamebutton" onclick="'.$renameJSFunction.'"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'">'.$file.'</a></li>';
                 }
@@ -72,7 +72,7 @@ if ($user != '') {
         $sizeconvert = true;
         if ($handle = opendir($currentdir)) {
             while (false !== ($file = readdir($handle))) {
-                if ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
+                if ($file != "." && $file != ".." && is_file($currentdir.'/'.$file) == true) {
                     $blacklist = array('$Recycle.Bin', 'BOOTSECT.BAK', 'DumpStack.log.tmp', 'hiberfil.sys', 'nginx-1.19.7', 'pagefile.sys', 'swapfile.sys');
                     $fileSize = '';
                     $fileTime = '';
@@ -114,10 +114,10 @@ if($uid == 1) {
         $currentdir2 = "K:";
         if ($handle = opendir($currentdir2)) {
             while (false !== ($file = readdir($handle))) {
-                if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
+                if ($file != "." && $file != ".." && is_dir("K:/".$file) == true) {
                     $renameJSFunction = 'var newname = prompt(\'New Name:\', \'\'); if (newname != null) {url = \'rename.php?filen='.$file.'&admin=k&newname=\' + newname; window.location.replace(url);}';
                     $thelist3 .= '<li><a class="deletebutton" href="deletedir.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a>  <a class="renamebutton" onclick="'.$renameJSFunction.'"></a><span class="smalltab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'&extra=k">'.$file.'</a></li>';
-                } elseif ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
+                } elseif ($file != "." && $file != ".." && is_file("K:/".$file) == true) {
                     $renameJSFunction = 'var newname = prompt(\'New Name:\', \'\'); if (newname != null) {url = \'rename.php?filen='.$file.'&admin=k&newname=\' + newname; window.location.replace(url);}';
                     $thelist4 .= '<li><a class="deletebutton" href="delete.php?file='.$file.'&admin=k" onclick="return  confirm(\'Do you want to delete '.$file.'?\')"></a> <a class="renamebutton" onclick="'.$renameJSFunction.'"></a> <a class="sharebutton" href="share.php?filen='.$file.'"></a> <a class="dlbutton" href="download.php?file='.$file.'&extra=k"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a></li>';
                 }
@@ -148,9 +148,9 @@ if($uid == 1) {
         if (strpos($currentdir, "K:/share") !== false) {
             if ($handle = opendir($currentdir)) {
                 while (false !== ($file = readdir($handle))) {
-                    if ($file != "." && $file != ".." && fnmatch("*.*", $file) == false) {
+                    if ($file != "." && $file != ".." && is_dir($currentdir.'/'.$file) == true) {
                         $thelist3 .= '<li><span class="tab"><span class="tab"><span class="tab"><span class="tab"><span class="tab"><span class="tab"><a class="filelink" href="openfolder.php?file='.$file.'&extra=k">'.$file.'</a></li>';
-                    } elseif ($file != "." && $file != ".." && fnmatch("*.*", $file) == true) {
+                    } elseif ($file != "." && $file != ".." && is_file($currentdir.'/'.$file) == true) {
                         $thelist4 .= '<li><span class="tab"><span class="tab"><span class="tab"><span class="tab"><a class="dlbutton" href="download.php?file='.$file.'&extra=k"></a><span class="tab"><a class="filelink" href="viewfile.php?file='.$file.'" target="_blank">'.$file.'</a></li>';
                     }
                 }
